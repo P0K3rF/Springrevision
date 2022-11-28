@@ -1,0 +1,125 @@
+	function checkValidation() {
+			let hasErrors = true
+
+			var inputEmail = $('#useremail').val();
+			var inputfirstName = $('#firstName').val()
+			var inputlastName = $('#lastName').val()
+			var inputmobile = $('#mobile').val()
+			var inputpassword = $('#userpassword').val()
+			var inputaddress = $('#address').val()
+
+			if (hasErrors) {
+				if (inputEmail == "" || checkEmail(inputEmail)) {
+					$('#emailError').show()
+					hasErrors = false
+				} else {
+
+					$('#emailError').hide()
+				}
+				if (inputfirstName == "" || onlyLetters(inputfirstName)) {
+
+					$('#firstNameError').show()
+					hasErrors = false
+				} else {
+					console.log("firstname")
+					$('#firstNameError').hide()
+				}
+				if (inputlastName == "" || onlyLetters(inputlastName)) {
+					hasErrors = false
+					$('#lastNameError').show()
+				} else {
+
+					$('#lastNameError').hide()
+				}
+				if (inputmobile == "" || checkPhoneNumber(inputmobile)) {
+
+					$('#mobilenoError').show()
+					hasErrors = false
+				} else {
+
+					$('#mobilenoError').hide()
+				}
+				
+				if(!checkPassword()){
+					$('#passwordError').show()
+					hasErrors = false
+				}else{
+					$('#passwordError').hide()
+				}
+				
+				
+				if(!confirmPassword())
+				{
+					hasErrors = false
+				}
+				if (inputaddress.length > 255) {
+					$('#addressError').show()
+					hasErrors = false
+				} else {
+					$('#addressError').hide()
+
+				}
+			} else {
+				hasErrors = true
+			}
+			return hasErrors
+
+		}
+
+		function checkPassword() {
+		
+			if (checkregxPassword($('#userpassword').val())) {
+				console.log()
+				$('#passwordError').show()
+				return false;
+			} else {
+				$('#passwordError').hide()
+				return true;
+			}
+		}
+		
+		
+		function confirmPassword(){
+			let userpass=$('#userpassword').val();
+			let confirmpass=$('#userconfirmpassword').val()
+		if(userpass==confirmpass){
+			$('#confirmpasswordError').show()
+			$("#confirmpasswordError").css("color","green");
+			$('#confirmpasswordError').text('Matched')
+			return true;
+		}else{
+			
+			$('#confirmpasswordError').show()
+			$("#confirmpasswordError").css("color","red");
+			$('#confirmpasswordError').text('Password Mismatch')
+			return false;
+		}
+			
+			
+			
+			
+			
+			
+			
+			
+		}
+		
+		//Email Regex
+		function checkEmail(email) {
+			var regx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			return !regx.test(email);
+		}
+
+		function onlyLetters(Name) {
+			var regx = /^[a-zA-Z][a-zA-Z ]*$/;
+			return !regx.test(Name);
+		}
+
+		function checkPhoneNumber(mobile) {
+			var regx = /^[0-9]{10}$/;
+			return !regx.test(mobile);
+		}
+		function checkregxPassword(password) {
+			var re = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
+			return !re.test(password)
+		}
